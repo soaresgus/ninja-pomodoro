@@ -17,11 +17,15 @@ export function ThemeButton({ toggleTheme }: props) {
     return (
         <IconContext.Provider value={{ size: '20' }}>
             <Container>
-                <MdOutlineLightMode />
-                <Switch onCheckedChange={toggleTheme} checked={title != defaultTheme}>
+                <label htmlFor="themeSwitcher">
+                    <MdOutlineLightMode />
+                </label>
+                <Switch onCheckedChange={toggleTheme} checked={title != defaultTheme} id="themeSwitcher">
                     <SwitchThumb />
                 </Switch>
-                <MdOutlineDarkMode />
+                <label htmlFor="themeSwitcher">
+                    <MdOutlineDarkMode />
+                </label>
             </Container>
         </IconContext.Provider>
     )

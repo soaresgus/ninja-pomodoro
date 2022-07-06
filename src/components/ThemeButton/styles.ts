@@ -20,7 +20,7 @@ export const Switch = styled(SwitchPrimitive.Root)`
     background-color: ${props => props.theme.colors.secondary};
 
     &:focus { 
-        box-shadow: 0 0 0 .1rem black
+        box-shadow: 0 0 0 .1rem white
     }
 `;
 

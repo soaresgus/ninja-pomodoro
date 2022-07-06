@@ -1,5 +1,5 @@
 import { IconContext } from 'react-icons'
-import styled, { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 
 export default createGlobalStyle`
     * {
@@ -9,6 +9,7 @@ export default createGlobalStyle`
         text-decoration: none;
         box-sizing: border-box;
         transition: background-color 0.5s;
+        -webkit-tap-highlight-color: transparent;
     }
     
     
@@ -19,7 +20,7 @@ export default createGlobalStyle`
 
     body {
         font-family: 'Roboto', sans-serif;
-        font-size: 1.4rem;
+        font-size: 3.2rem;
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
         color: ${props => props.theme.colors.text};
