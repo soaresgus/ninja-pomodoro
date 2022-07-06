@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
     display: flex;
@@ -35,7 +35,7 @@ export const ControlersContainer = styled.div`
     gap: .8rem
 `;
 
-export const ResetButton = styled.button`
+const ButtonStyle = css`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,7 +43,7 @@ export const ResetButton = styled.button`
     border-radius: .8rem;
     width: 100%;
     padding-block: .5rem;
-    
+
     background-color: ${props => props.theme.colors.secondary};
     border: none;
     color: ${props => props.theme.colors.text};
@@ -54,25 +54,12 @@ export const ResetButton = styled.button`
         background-color: ${props => props.theme.colors.hover};
         cursor: pointer;
     }
+`
+
+export const ResetButton = styled.button`
+    ${ButtonStyle};
 `;
 
 export const PlayPauseButton = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    border-radius: .8rem;
-    width: 100%;
-    padding-block: .5rem;
-    
-    background-color: ${props => props.theme.colors.secondary};
-    border: none;
-    color: ${props => props.theme.colors.text};
-
-    transition: background-color .2s;
-
-    &:hover {
-        background-color: ${props => props.theme.colors.hover};
-        cursor: pointer;
-    }
+    ${ButtonStyle};
 `;
