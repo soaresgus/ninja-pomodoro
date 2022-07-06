@@ -14,6 +14,9 @@ export default createGlobalStyle`
         font-size: 14px;
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
+        color: ${props => props.theme.colors.text};
+
+        background-color: ${props => props.theme.colors.secondary};
     }
 
     body, html, #root {
