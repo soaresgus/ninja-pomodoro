@@ -6,6 +6,6 @@ export default {
         secondary: '#b59ec6',
         hover: '#e6cfec',
         light: '#ffe7ff',
-        text: '#1f0e1c',
+        text: '#f3fefe',
     }
 }
