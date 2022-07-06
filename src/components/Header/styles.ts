@@ -11,8 +11,14 @@ export const Content = styled.div`
 `;
 
 export const Container = styled.header`
+    display: flex;
+    align-items: center;
+
     background-color: ${props => props.theme.colors.primary};
 
+    position: absolute;
+
+    width: 100%;
     padding-block: 1rem;
 `;
 
