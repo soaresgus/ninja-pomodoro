@@ -1,21 +1,37 @@
 import { PopoverButton } from "../PopoverButton";
-import { ConfigurationsContainer, Container, TimeText } from "./styles";
+import { ConfigurationsContainer, Container, ControlersContainer, PlayPauseButton, ResetButton, TimeText } from "./styles";
 
-import { MdTune } from 'react-icons/md'
+import { MdTune, MdPlayArrow, MdPause, MdRefresh } from 'react-icons/md'
+import { IconContext } from "react-icons";
 
 export function Timer() {
     return (
-        <Container>
-            <TimeText>25:00</TimeText>
-            <ConfigurationsContainer>
-                <PopoverButton
-                    icon={<MdTune />}
-                    title='Configurações'
-                    content={
-                        <span>olá mundo!</span>
-                    }
-                />
-            </ConfigurationsContainer>
-        </Container>
+        <IconContext.Provider value={{ size: '28' }}>
+            <Container>
+                <TimeText>25:00</TimeText>
+
+                <ControlersContainer>
+                    <PlayPauseButton
+                        onClick={() => { }}
+                    >
+                        <MdPlayArrow />
+                    </PlayPauseButton>
+
+                    <ResetButton>
+                        <MdRefresh />
+                    </ResetButton>
+                </ControlersContainer>
+
+                <ConfigurationsContainer>
+                    <PopoverButton
+                        icon={<MdTune />}
+                        title='Configurações'
+                        content={
+                            <span>olá mundo!</span>
+                        }
+                    />
+                </ConfigurationsContainer>
+            </Container>
+        </IconContext.Provider>
     )
 }

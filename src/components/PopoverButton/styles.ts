@@ -4,6 +4,10 @@ import * as HoverCard from '@radix-ui/react-hover-card';
 import * as Popover from '@radix-ui/react-popover';
 
 export const HoverButtonTrigger = styled(HoverCard.Trigger)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     width: 3.5rem;
     height: 3.5rem;
     padding: .5rem;
