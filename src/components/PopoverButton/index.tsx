@@ -17,7 +17,7 @@ export function PopoverButton({ title, icon, content }: props) {
     const PopoverRoot = Popover.Root;
     return (
         <PopoverRoot modal>
-            <PopoverTrigger>
+            <PopoverTrigger aria-label={title}>
                 <HoverButton openDelay={0}>
                     <HoverButtonTrigger>
                         {icon}

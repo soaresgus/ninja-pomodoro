@@ -1,5 +1,32 @@
 import styled, { css } from 'styled-components';
 
+import { Tabs, Tab } from "@mui/material";
+
+const ButtonStyle = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: .8rem;
+    width: 100%;
+    padding-block: .5rem;
+
+    background-color: ${props => props.theme.colors.secondary};
+    border: none;
+    color: ${props => props.theme.colors.text};
+
+    transition: background-color .2s;
+
+    &:hover {
+        background-color: ${props => props.theme.colors.hover};
+        cursor: pointer;
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 .1rem white;
+    }
+`
+
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -35,31 +62,36 @@ export const ControlersContainer = styled.div`
     gap: .8rem
 `;
 
-const ButtonStyle = css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    border-radius: .8rem;
-    width: 100%;
-    padding-block: .5rem;
-
-    background-color: ${props => props.theme.colors.secondary};
-    border: none;
-    color: ${props => props.theme.colors.text};
-
-    transition: background-color .2s;
-
-    &:hover {
-        background-color: ${props => props.theme.colors.hover};
-        cursor: pointer;
-    }
-`
-
 export const ResetButton = styled.button`
     ${ButtonStyle};
 `;
 
 export const PlayPauseButton = styled.button`
     ${ButtonStyle};
+`;
+
+export const StyledTabs = styled(Tabs)`
+    & .MuiTabs-indicator {
+        background-color: ${props => props.theme.colors.light};
+    }
+`;
+
+export const StyledTab = styled(Tab)`
+    && {
+        font-size: 1.8rem;
+        color: white; 
+    }
+
+    &&.Mui-selected {
+        color: ${props => props.theme.colors.light};
+    }
+
+    &&.Mui-disabled {
+        color: ${props => props.theme.colors.secondary};
+
+        &:disabled {
+            cursor: not-allowed;
+            pointer-events: all;
+        }
+    }
 `;
