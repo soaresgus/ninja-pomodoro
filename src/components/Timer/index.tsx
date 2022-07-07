@@ -27,9 +27,9 @@ function TabPanel(props: TabPanelProps) {
             {...other}
         >
             {value === index && (
-                <div>
-                    <p>{index}</p>
-                </div>
+                <>
+                    {children}
+                </>
             )}
         </div>
     );
@@ -60,11 +60,15 @@ export function Timer() {
                     aria-label="Trocar modo do temporizador"
                 >
                     <StyledTab label="TRABALHO" {...a11yProps(0)} />
-                    <StyledTab label="DESCANSO" {...a11yProps(1)} disabled />
+                    <StyledTab label="DESCANSO" {...a11yProps(1)} />
                 </StyledTabs>
 
-                <TabPanel value={restModeBooleanToNumber} index={0} />
-                <TabPanel value={restModeBooleanToNumber} index={1} />
+                <TabPanel value={restModeBooleanToNumber} index={0}>
+                    Olá universo!
+                </TabPanel>
+                <TabPanel value={restModeBooleanToNumber} index={1}>
+                    Olá flor!
+                </TabPanel>
 
                 <TimeText>25:00</TimeText>
 
@@ -84,10 +88,9 @@ export function Timer() {
                     <PopoverButton
                         icon={<MdTune />}
                         title='Configurações'
-                        content={
-                            <span>olá mundo!</span>
-                        }
-                    />
+                    >
+                        Olá lindo mundo!
+                    </PopoverButton>
                 </ConfigurationsContainer>
             </Container>
         </IconContext.Provider>

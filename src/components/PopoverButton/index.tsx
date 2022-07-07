@@ -8,10 +8,10 @@ import { MdClose } from 'react-icons/md'
 interface props {
     title: string,
     icon: any,
-    content?: any,
+    children?: React.ReactNode,
 }
 
-export function PopoverButton({ title, icon, content }: props) {
+export function PopoverButton({ title, icon, children }: props) {
     const HoverButton = HoverCard.Root;
 
     const PopoverRoot = Popover.Root;
@@ -34,7 +34,7 @@ export function PopoverButton({ title, icon, content }: props) {
                 <PopoverClose>
                     <MdClose size={15} />
                 </PopoverClose>
-                {content}
+                {children}
                 <PopoverArrow />
             </PopoverContent>
         </PopoverRoot>
