@@ -1,4 +1,6 @@
+import { TabProps, TabsProps } from "@mui/material";
 import React, { useState } from "react";
+import { ThemedStyledInterface } from "styled-components";
 import { StyledTab, StyledTabs } from "./styles";
 
 interface TabPanelProps {
@@ -38,9 +40,10 @@ function a11yProps(index: number) {
 
 interface props {
     content: Array<React.ReactNode>;
+    paleteColor?: 'primary' | 'secondary' | 'hover' | 'light' | 'text';
 }
 
-export function TimerModeTabs({ content }: props) {
+export function TimerModeTabs({ content, paleteColor }: props) {
     const [restMode, setRestMode] = useState(false);
 
     const handleRestModeChange = (event: React.SyntheticEvent, value: boolean) => {
@@ -55,9 +58,10 @@ export function TimerModeTabs({ content }: props) {
                 value={restModeBooleanToNumber}
                 onChange={handleRestModeChange}
                 aria-label="Trocar modo do temporizador"
+                color={paleteColor}
             >
-                <StyledTab label="TRABALHO" {...a11yProps(0)} />
-                <StyledTab label="DESCANSO" {...a11yProps(1)} />
+                <StyledTab color={paleteColor} label="TRABALHO" {...a11yProps(0)} />
+                <StyledTab color={paleteColor} label="DESCANSO" {...a11yProps(1)} />
             </StyledTabs>
 
             <TabPanel value={restModeBooleanToNumber} index={0}>

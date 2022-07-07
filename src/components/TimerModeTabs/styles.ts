@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const StyledTabs = styled(Tabs)`
     & .MuiTabs-indicator {
-        background-color: ${props => props.theme.colors.light};
+        background-color:${props => props.theme.colors[props.color || 'light']};
     }
 `;
 
@@ -14,7 +14,7 @@ export const StyledTab = styled(Tab)`
     }
 
     &&.Mui-selected {
-        color: ${props => props.theme.colors.light};
+        color: ${props => props.theme.colors[props.color || 'light']};
     }
 
     &&.Mui-disabled {
