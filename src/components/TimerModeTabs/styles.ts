@@ -1,6 +1,14 @@
 import { Tabs, Tab } from '@mui/material';
 import styled from 'styled-components';
 
+export const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+`;
+
 export const StyledTabs = styled(Tabs)`
     & .MuiTabs-indicator {
         background-color:${props => props.theme.colors[props.color || 'light']};

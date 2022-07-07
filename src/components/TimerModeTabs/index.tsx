@@ -1,7 +1,7 @@
 import { TabProps, TabsProps } from "@mui/material";
 import React, { useState } from "react";
 import { ThemedStyledInterface } from "styled-components";
-import { StyledTab, StyledTabs } from "./styles";
+import { Container, StyledTab, StyledTabs } from "./styles";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -53,7 +53,7 @@ export function TimerModeTabs({ content, paleteColor }: props) {
     const restModeBooleanToNumber = Number(restMode)
 
     return (
-        <>
+        <Container>
             <StyledTabs
                 value={restModeBooleanToNumber}
                 onChange={handleRestModeChange}
@@ -70,6 +70,6 @@ export function TimerModeTabs({ content, paleteColor }: props) {
             <TabPanel value={restModeBooleanToNumber} index={1}>
                 {content[1]}
             </TabPanel>
-        </>
+        </Container>
     )
 }
