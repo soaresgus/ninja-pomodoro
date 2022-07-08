@@ -1,14 +1,11 @@
-import { HoverButtonTrigger } from "../PopoverButton/styles";
-import * as HoverCard from '@radix-ui/react-hover-card';
-
 import { TimerModeTabs } from "../TimerModeTabs";
-import { Container, InputContainer, StyledInput, FormContainer, PopoverText, StyledCheckbox, FormFooter, StyledButton } from "./styles";
+import { Container, InputContainer, StyledInput, FormContainer, PopoverText, FormFooter, StyledButton } from "./styles";
 
 import { MdHelp } from 'react-icons/md'
 import { PopoverButton } from "../PopoverButton";
+import { CheckboxWithLabel } from "../CheckboxWithLabel";
 
 export function ConfigurationsForm() {
-    const HoverButton = HoverCard.Root;
     const jobForm = (
         <FormContainer>
             <InputContainer>
@@ -53,10 +50,10 @@ export function ConfigurationsForm() {
             </InputContainer>
 
             <InputContainer>
-                <div>
-                    <label htmlFor="block-rest">Bloquear descanso</label>
-                    <StyledCheckbox sx={{ '& .MuiSvgIcon-root': { fontWeight: 1 } }} id="block-rest" />
-                </div>
+                <CheckboxWithLabel
+                    id="block-rest"
+                    labelText="Bloquear descanso"
+                />
                 <PopoverButton
                     icon={<MdHelp />}
                     paleteColor='light'
@@ -84,23 +81,23 @@ export function ConfigurationsForm() {
                 <div>
                     <StyledInput
                         type="text"
-                        id="job-time"
+                        id="rest-time"
                         label="Tempo (minutos)"
                         variant="outlined"
                         size="small"
                         InputProps={{
                             inputMode: 'numeric',
-                            endAdornment: <label htmlFor="job-time">min</label>,
+                            endAdornment: <label htmlFor="rest-time">min</label>,
                         }}
                     />
                 </div>
             </InputContainer>
 
             <InputContainer>
-                <div>
-                    <label htmlFor="block-rest">Tempo automático</label>
-                    <StyledCheckbox sx={{ '& .MuiSvgIcon-root': { fontWeight: 1 } }} id="block-rest" />
-                </div>
+                <CheckboxWithLabel
+                    id="automatic-rest-time"
+                    labelText="Tempo automático"
+                />
                 <PopoverButton
                     icon={<MdHelp />}
                     paleteColor='light'

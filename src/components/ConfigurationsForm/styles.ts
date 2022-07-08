@@ -1,6 +1,5 @@
-import { Button, Checkbox, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import styled from 'styled-components';
-import { HoverButtonContent, HoverButtonArrow } from '../PopoverButton/styles';
 
 export const Container = styled.div`
     display: flex;
@@ -39,20 +38,6 @@ export const StyledInput = styled(TextField)`
         }
     }
 `;
-
-export const StyledCheckbox = styled(Checkbox)`
-    && {
-        padding: .5rem;
-        color: ${props => props.theme.colors.text};
-        & .MuiSvgIcon-root {
-            font-size: 3rem;
-        }
-        
-        &.Mui-checked {
-            color: ${props => props.theme.colors.primary};
-        }
-    }
-`
 
 export const StyledButton = styled(Button)`
     && {
