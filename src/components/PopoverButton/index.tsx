@@ -6,12 +6,13 @@ import * as Popover from '@radix-ui/react-popover';
 import { MdClose } from 'react-icons/md'
 
 interface props {
-    title: string,
+    title?: string,
     icon: any,
     children?: React.ReactNode,
+    paleteColor?: 'primary' | 'secondary' | 'hover' | 'light' | 'text'
 }
 
-export function PopoverButton({ title, icon, children }: props) {
+export function PopoverButton({ title, icon, children, paleteColor }: props) {
     const HoverButton = HoverCard.Root;
 
     const PopoverRoot = Popover.Root;
@@ -23,14 +24,16 @@ export function PopoverButton({ title, icon, children }: props) {
                         {icon}
                     </HoverButtonTrigger>
 
-                    <HoverButtonContent>
-                        <span>{title}</span>
+                    <HoverButtonContent color={paleteColor}>
+                        {
+                            title && <span>{title}</span>
+                        }
                         <HoverButtonArrow />
                     </HoverButtonContent>
                 </HoverButton>
             </PopoverTrigger>
 
-            <PopoverContent>
+            <PopoverContent color={paleteColor}>
                 <PopoverClose>
                     <MdClose size={15} />
                 </PopoverClose>

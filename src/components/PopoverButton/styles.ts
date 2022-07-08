@@ -17,7 +17,7 @@ const ArrowStyle = css`
 const ContentStyle = css`
     display: flex;
 
-    background-color: ${props => props.theme.colors.hover};
+    background-color: ${props => props.theme.colors[props.color || 'hover']};
 
     border-radius: .4rem;
     padding: .5rem;
