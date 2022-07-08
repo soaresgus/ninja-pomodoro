@@ -9,10 +9,11 @@ interface props {
     title?: string,
     icon: any,
     children?: React.ReactNode,
-    paleteColor?: 'primary' | 'secondary' | 'hover' | 'light' | 'text'
+    paleteColor?: 'primary' | 'secondary' | 'hover' | 'light' | 'text',
+    direction?: 'top' | 'bottom' | 'left' | 'right'
 }
 
-export function PopoverButton({ title, icon, children, paleteColor }: props) {
+export function PopoverButton({ title, icon, children, paleteColor, direction }: props) {
     const HoverButton = HoverCard.Root;
 
     const PopoverRoot = Popover.Root;
@@ -24,21 +25,23 @@ export function PopoverButton({ title, icon, children, paleteColor }: props) {
                         {icon}
                     </HoverButtonTrigger>
 
-                    <HoverButtonContent color={paleteColor}>
-                        {
-                            title && <span>{title}</span>
-                        }
-                        <HoverButtonArrow />
-                    </HoverButtonContent>
+                    {
+                        title && (
+                            <HoverButtonContent color={paleteColor}>
+                                <span>{title}</span>
+                                <HoverButtonArrow />
+                            </HoverButtonContent>
+                        )
+                    }
                 </HoverButton>
             </PopoverTrigger>
 
-            <PopoverContent color={paleteColor}>
+            <PopoverContent color={paleteColor} side={direction}>
                 <PopoverClose>
                     <MdClose size={15} />
                 </PopoverClose>
                 {children}
-                <PopoverArrow />
+                <PopoverArrow color={paleteColor} />
             </PopoverContent>
         </PopoverRoot>
     )

@@ -10,7 +10,7 @@ const FadeAnimation = keyframes`
 `
 
 const ArrowStyle = css`
-    fill: ${props => props.theme.colors.hover};
+    fill: ${props => props.theme.colors[props.color || 'hover']};;
     margin-bottom: .5rem;
 `;
 
