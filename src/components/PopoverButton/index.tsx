@@ -10,10 +10,10 @@ interface props {
     icon: any,
     children?: React.ReactNode,
     paleteColor?: 'primary' | 'secondary' | 'hover' | 'light' | 'text',
-    direction?: 'top' | 'bottom' | 'left' | 'right'
+    avoidCollisions?: boolean
 }
 
-export function PopoverButton({ title, icon, children, paleteColor, direction }: props) {
+export function PopoverButton({ title, icon, children, paleteColor, avoidCollisions = true }: props) {
     const HoverButton = HoverCard.Root;
 
     const PopoverRoot = Popover.Root;
@@ -36,7 +36,7 @@ export function PopoverButton({ title, icon, children, paleteColor, direction }:
                 </HoverButton>
             </PopoverTrigger>
 
-            <PopoverContent color={paleteColor} side={direction}>
+            <PopoverContent avoidCollisions={avoidCollisions} color={paleteColor} side='top'>
                 <PopoverClose>
                     <MdClose size={15} />
                 </PopoverClose>

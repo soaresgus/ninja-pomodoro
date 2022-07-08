@@ -12,31 +12,35 @@ export function ConfigurationsForm() {
     const jobForm = (
         <FormContainer>
             <InputContainer>
-                <StyledInput
-                    type="text"
-                    id="job-time"
-                    label="Tempo (minutos)"
-                    variant="outlined"
-                    size="small"
-                    InputProps={{
-                        inputMode: 'numeric',
-                        endAdornment: <label htmlFor="job-time">min</label>,
-                    }}
-                />
+                <div>
+                    <StyledInput
+                        type="text"
+                        id="job-time"
+                        label="Tempo (minutos)"
+                        variant="outlined"
+                        size="small"
+                        InputProps={{
+                            inputMode: 'numeric',
+                            endAdornment: <label htmlFor="job-time">min</label>,
+                        }}
+                    />
+                </div>
             </InputContainer>
 
             <InputContainer>
-                <StyledInput
-                    type="text"
-                    id="qtd-pomodoro"
-                    label="Qtd. Pomodoros"
-                    variant="outlined"
-                    size="small"
-                    InputProps={{
-                        inputMode: 'numeric',
-                        endAdornment: <label htmlFor="qtd-pomodoro">x</label>,
-                    }}
-                />
+                <div>
+                    <StyledInput
+                        type="text"
+                        id="qtd-pomodoro"
+                        label="Qtd. Pomodoros"
+                        variant="outlined"
+                        size="small"
+                        InputProps={{
+                            inputMode: 'numeric',
+                            endAdornment: <label htmlFor="qtd-pomodoro">x</label>,
+                        }}
+                    />
+                </div>
                 <PopoverButton
                     icon={<MdHelp />}
                     paleteColor='light'
@@ -49,8 +53,10 @@ export function ConfigurationsForm() {
             </InputContainer>
 
             <InputContainer>
-                <label htmlFor="block-rest">Bloquear descanso</label>
-                <StyledCheckbox sx={{ '& .MuiSvgIcon-root': { fontWeight: 1 } }} id="block-rest" />
+                <div>
+                    <label htmlFor="block-rest">Bloquear descanso</label>
+                    <StyledCheckbox sx={{ '& .MuiSvgIcon-root': { fontWeight: 1 } }} id="block-rest" />
+                </div>
                 <PopoverButton
                     icon={<MdHelp />}
                     paleteColor='light'
@@ -73,7 +79,49 @@ export function ConfigurationsForm() {
     )
 
     const restForm = (
-        <></>
+        <FormContainer>
+            <InputContainer>
+                <div>
+                    <StyledInput
+                        type="text"
+                        id="job-time"
+                        label="Tempo (minutos)"
+                        variant="outlined"
+                        size="small"
+                        InputProps={{
+                            inputMode: 'numeric',
+                            endAdornment: <label htmlFor="job-time">min</label>,
+                        }}
+                    />
+                </div>
+            </InputContainer>
+
+            <InputContainer>
+                <div>
+                    <label htmlFor="block-rest">Tempo automático</label>
+                    <StyledCheckbox sx={{ '& .MuiSvgIcon-root': { fontWeight: 1 } }} id="block-rest" />
+                </div>
+                <PopoverButton
+                    icon={<MdHelp />}
+                    paleteColor='light'
+                >
+                    <PopoverText>
+                        Define um tempo automático de acordo com a
+                        quantidade de pomodoros citada nas configurações do modo de trabalho.
+                        <p>[1 pomodoro = 5 min. descanso]</p>
+                    </PopoverText>
+                </PopoverButton>
+            </InputContainer>
+
+            <FormFooter>
+                <StyledButton
+                    variant="outlined"
+                    size="large"
+                >
+                    Aplicar
+                </StyledButton>
+            </FormFooter>
+        </FormContainer >
     )
 
     return (

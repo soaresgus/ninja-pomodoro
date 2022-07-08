@@ -7,11 +7,13 @@ export const Container = styled.div`
     padding: 1.5rem;
     padding-top: 0;
     gap: 2rem;
+    width: 29.4rem;
 `;
 
 export const InputContainer = styled.div`
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 1rem
 `;
 
@@ -68,14 +70,18 @@ export const StyledButton = styled(Button)`
 export const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 2rem
+    justify-content: center;
+    gap: 2rem;
+    height: 21.6rem;
+    width: 26.3rem;
 `;
 
 export const FormFooter = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: flex-end;
+    height: 100%;
 `;
 
 export const PopoverText = styled.span`
