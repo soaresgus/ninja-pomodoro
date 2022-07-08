@@ -8,6 +8,7 @@ export const Content = styled.main`
 
     width: min(76.8rem, 100%);
 
+    padding-top: 5.5rem;
     margin-inline: auto;
     height: 100%;
 `;
