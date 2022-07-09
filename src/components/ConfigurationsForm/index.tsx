@@ -4,8 +4,45 @@ import { Container, InputContainer, StyledInput, FormContainer, PopoverText, For
 import { MdHelp } from 'react-icons/md'
 import { PopoverButton } from "../PopoverButton";
 import { CheckboxWithLabel } from "../CheckboxWithLabel";
+import React, { useEffect, useState } from "react";
 
 export function ConfigurationsForm() {
+    const [validJobForm, setValidJobForm] = useState([false, false]);
+    const [validRestForm, setValidRestForm] = useState([false]);
+
+    const [jobFormInputValues, setJobFormInputValues] = useState([0, 0]);
+    const [restFormInputValues, setRestFormInputValues] = useState([0]);
+
+    function handleSetValidFormAccordingState(formState: boolean[], formStateDispatch: React.Dispatch<React.SetStateAction<boolean[]>>, value: boolean, index: 0 | 1) {
+        let validFormValues: boolean[] = [];
+
+        formState.forEach((element, key) => {
+            validFormValues[key] = element;
+            if (key == index) {
+                validFormValues[key] = value;
+            }
+        });
+
+        formStateDispatch(validFormValues);
+    }
+
+    function handleSetInputValuesAccordingState(formInputState: number[], formInputStateDispatch: React.Dispatch<React.SetStateAction<number[]>>, value: number, index: 0 | 1) {
+        let FormValues: number[] = [];
+
+        formInputState.forEach((element, key) => {
+            FormValues[key] = element;
+            if (key == index) {
+                FormValues[key] = value;
+            }
+        });
+
+        formInputStateDispatch(FormValues);
+    }
+
+    const formIsValid = (values: boolean[]) => {
+        return values.every(element => element);
+    }
+
     const jobForm = (
         <FormContainer>
             <InputContainer>
@@ -16,6 +53,11 @@ export function ConfigurationsForm() {
                         label="Tempo (minutos)"
                         variant="outlined"
                         size="small"
+                        onChange={(event) => {
+                            event.target.value = formatValue(new RegExp(/\D/), event.target.value);
+                            handleSetValidFormAccordingState(validJobForm, setValidJobForm, checkInputFormat(event.target.value), 0);
+                            handleSetInputValuesAccordingState(jobFormInputValues, setJobFormInputValues, Number(event.target.value), 0);
+                        }}
                         InputProps={{
                             inputMode: 'numeric',
                             endAdornment: <label htmlFor="job-time">min</label>,
@@ -32,6 +74,11 @@ export function ConfigurationsForm() {
                         label="Qtd. Pomodoros"
                         variant="outlined"
                         size="small"
+                        onChange={(event) => {
+                            event.target.value = formatValue(new RegExp(/\D/), event.target.value);
+                            handleSetValidFormAccordingState(validJobForm, setValidJobForm, checkInputFormat(event.target.value), 1);
+                            handleSetInputValuesAccordingState(jobFormInputValues, setJobFormInputValues, Number(event.target.value), 1);
+                        }}
                         InputProps={{
                             inputMode: 'numeric',
                             endAdornment: <label htmlFor="qtd-pomodoro">x</label>,
@@ -68,6 +115,7 @@ export function ConfigurationsForm() {
                 <StyledButton
                     variant="outlined"
                     size="large"
+                    disabled={!formIsValid(validJobForm)}
                 >
                     Aplicar
                 </StyledButton>
@@ -85,6 +133,11 @@ export function ConfigurationsForm() {
                         label="Tempo (minutos)"
                         variant="outlined"
                         size="small"
+                        onChange={(event) => {
+                            event.target.value = formatValue(new RegExp(/\D/), event.target.value);
+                            handleSetValidFormAccordingState(validRestForm, setValidRestForm, checkInputFormat(event.target.value), 0);
+                            handleSetInputValuesAccordingState(restFormInputValues, setRestFormInputValues, Number(event.target.value), 0);
+                        }}
                         InputProps={{
                             inputMode: 'numeric',
                             endAdornment: <label htmlFor="rest-time">min</label>,
@@ -114,6 +167,7 @@ export function ConfigurationsForm() {
                 <StyledButton
                     variant="outlined"
                     size="large"
+                    disabled={!formIsValid(validRestForm)}
                 >
                     Aplicar
                 </StyledButton>
