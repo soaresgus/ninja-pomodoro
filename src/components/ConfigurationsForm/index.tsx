@@ -5,13 +5,30 @@ import { MdHelp } from 'react-icons/md'
 import { PopoverButton } from "../PopoverButton";
 import { CheckboxWithLabel } from "../CheckboxWithLabel";
 import React, { useEffect, useState } from "react";
+import usePersistedState from "../../utils/usePersistedState";
 
 export function ConfigurationsForm() {
-    const [validJobForm, setValidJobForm] = useState([false, false]);
-    const [validRestForm, setValidRestForm] = useState([false]);
+    const [validJobForm, setValidJobForm] = useState([true, true]);
+    const [validRestForm, setValidRestForm] = useState([true]);
 
     const [jobFormInputValues, setJobFormInputValues] = useState([0, 0]);
     const [restFormInputValues, setRestFormInputValues] = useState([0]);
+
+    const defaultJobTime = 25 * 60;
+    const defaultPomodoroAmount = 1;
+    const defaultBlockRest = true;
+
+    const defaultRestTime = (defaultJobTime / 5);
+    const defaultAutomaticTime = true;
+
+    const [jobTime, setJobTime] = usePersistedState('jobTime', defaultJobTime);
+    const [pomodoroAmount, setPomodoroAmount] = usePersistedState('pomodoroAmount', defaultPomodoroAmount);
+    const [blockRest, setBlockRest] = usePersistedState('blockRest', defaultBlockRest);
+
+    const [restTime, setRestTime] = usePersistedState('restTime', defaultRestTime);
+    const [automaticTime, setAutomaticTime] = usePersistedState('automaticTime', defaultAutomaticTime);
+
+    const [actualTime, setActualTime] = usePersistedState('actualTime', jobTime);
 
     function handleSetValidFormAccordingState(formState: boolean[], formStateDispatch: React.Dispatch<React.SetStateAction<boolean[]>>, value: boolean, index: 0 | 1) {
         let validFormValues: boolean[] = [];
@@ -37,10 +54,33 @@ export function ConfigurationsForm() {
         });
 
         formInputStateDispatch(FormValues);
+        console.log(FormValues)
     }
 
     const formIsValid = (values: boolean[]) => {
         return values.every(element => element);
+    }
+
+    function formatSeconds(seconds: number, showSeconds?: boolean) {
+        let hour = Math.floor(seconds / 3600);
+        let minute = Math.floor((seconds % 3600) / 60);
+        let second = seconds % 60;
+
+        const zeroPadStart = (string: string) => string.padStart(2, '0');
+
+        if (showSeconds) {
+            if (hour >= 1) {
+                return `${zeroPadStart(hour.toString())}:${zeroPadStart(minute.toString())}:${zeroPadStart(second.toString())}`
+            } else {
+                return `${zeroPadStart(minute.toString())}:${zeroPadStart(second.toString())}`
+            }
+        }
+
+        if (hour >= 1) {
+            return `${zeroPadStart(hour.toString())}:${zeroPadStart(minute.toString())}`
+        } else {
+            return `${minute.toString()}`
+        }
     }
 
     const jobForm = (
@@ -53,6 +93,7 @@ export function ConfigurationsForm() {
                         label="Tempo (minutos)"
                         variant="outlined"
                         size="small"
+                        value={formatSeconds(jobTime)}
                         onChange={(event) => {
                             event.target.value = formatValue(new RegExp(/\D/), event.target.value);
                             handleSetValidFormAccordingState(validJobForm, setValidJobForm, checkInputFormat(event.target.value), 0);
@@ -74,6 +115,7 @@ export function ConfigurationsForm() {
                         label="Qtd. Pomodoros"
                         variant="outlined"
                         size="small"
+                        value={pomodoroAmount}
                         onChange={(event) => {
                             event.target.value = formatValue(new RegExp(/\D/), event.target.value);
                             handleSetValidFormAccordingState(validJobForm, setValidJobForm, checkInputFormat(event.target.value), 1);
@@ -100,6 +142,7 @@ export function ConfigurationsForm() {
                 <CheckboxWithLabel
                     id="block-rest"
                     labelText="Bloquear descanso"
+                    checked={blockRest}
                 />
                 <PopoverButton
                     icon={<MdHelp />}
@@ -133,6 +176,7 @@ export function ConfigurationsForm() {
                         label="Tempo (minutos)"
                         variant="outlined"
                         size="small"
+                        value={formatSeconds(restTime)}
                         onChange={(event) => {
                             event.target.value = formatValue(new RegExp(/\D/), event.target.value);
                             handleSetValidFormAccordingState(validRestForm, setValidRestForm, checkInputFormat(event.target.value), 0);
@@ -150,6 +194,7 @@ export function ConfigurationsForm() {
                 <CheckboxWithLabel
                     id="automatic-rest-time"
                     labelText="Tempo automático"
+                    checked={automaticTime}
                 />
                 <PopoverButton
                     icon={<MdHelp />}
