@@ -121,6 +121,18 @@ export function ConfigurationsForm() {
         </FormContainer >
     )
 
+    function formatValue(pattern: RegExp, value: string) {
+        return value.replace(pattern, '');
+    }
+
+    function checkInputFormat(value: string) {
+        if (value != '') {
+            return true;
+        }
+
+        return false;
+    }
+
     return (
         <Container>
             <TimerModeTabs paleteColor="primary" content={[

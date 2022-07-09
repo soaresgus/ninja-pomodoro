@@ -49,6 +49,13 @@ export const StyledButton = styled(Button)`
             background-color: ${props => props.theme.colors.light};
             border-color: ${props => props.theme.colors.light};
         }
+
+        &.Mui-disabled {
+            background-color: ${props => props.theme.colors.light};
+
+            cursor: not-allowed;
+            pointer-events: all;
+        }
     }
 `;
 
