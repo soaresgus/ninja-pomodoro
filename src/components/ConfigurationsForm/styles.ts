@@ -35,6 +35,16 @@ export const StyledInput = styled(TextField)`
                      border-color: ${props => props.theme.colors.primary};
                 }
             }
+            
+            &.Mui-disabled {
+                & .MuiOutlinedInput-notchedOutline {
+                     border-color: ${props => props.theme.colors.light};
+                }
+
+                &.MuiInputLabel-root, &.MuiOutlinedInput-root {
+                    color: ${props => props.theme.colors.light};
+                }
+            }
         }
     }
 `;
@@ -64,7 +74,7 @@ export const FormContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     gap: 2rem;
-    height: 21.6rem;
+    height: 27.6rem;
     width: 26.3rem;
 `;
 
@@ -78,4 +88,5 @@ export const FormFooter = styled.div`
 
 export const PopoverText = styled.span`
     max-width: 26rem;
+    padding: .5rem;
 `;

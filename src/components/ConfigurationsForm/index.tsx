@@ -11,22 +11,21 @@ export function ConfigurationsForm() {
     const [validJobForm, setValidJobForm] = useState([true, true]);
     const [validRestForm, setValidRestForm] = useState([true]);
 
-    const [jobFormInputValues, setJobFormInputValues] = useState([0, 0]);
-    const [restFormInputValues, setRestFormInputValues] = useState([0]);
-
     const defaultJobTime = 25 * 60;
     const defaultPomodoroAmount = 1;
+    const defaultAutomaticJobTime = false;
     const defaultBlockRest = true;
 
     const defaultRestTime = (defaultJobTime / 5);
-    const defaultAutomaticTime = true;
+    const defaultAutomaticRestTime = defaultAutomaticJobTime;
 
     const [jobTime, setJobTime] = usePersistedState('jobTime', defaultJobTime);
     const [pomodoroAmount, setPomodoroAmount] = usePersistedState('pomodoroAmount', defaultPomodoroAmount);
     const [blockRest, setBlockRest] = usePersistedState('blockRest', defaultBlockRest);
+    const [automaticJobTime, setAutomaticJobTime] = usePersistedState('automaticJobTime', defaultAutomaticJobTime)
 
     const [restTime, setRestTime] = usePersistedState('restTime', defaultRestTime);
-    const [automaticTime, setAutomaticTime] = usePersistedState('automaticTime', defaultAutomaticTime);
+    const [automaticRestTime, setAutomaticRestTime] = usePersistedState('automaticRestTime', defaultAutomaticRestTime);
 
     const [actualTime, setActualTime] = usePersistedState('actualTime', jobTime);
 
@@ -43,25 +42,24 @@ export function ConfigurationsForm() {
         formStateDispatch(validFormValues);
     }
 
-    function handleSetInputValuesAccordingState(formInputState: number[], formInputStateDispatch: React.Dispatch<React.SetStateAction<number[]>>, value: number, index: 0 | 1) {
-        let FormValues: number[] = [];
-
-        formInputState.forEach((element, key) => {
-            FormValues[key] = element;
-            if (key == index) {
-                FormValues[key] = value;
-            }
-        });
-
-        formInputStateDispatch(FormValues);
-        console.log(FormValues)
-    }
-
-    const formIsValid = (values: boolean[]) => {
+    function formIsValid(values: boolean[]) {
         return values.every(element => element);
     }
 
-    function formatSeconds(seconds: number, showSeconds?: boolean) {
+    function formatValue(pattern: RegExp, value: string) {
+        return value.replace(pattern, '');
+    }
+
+    function checkInputFormat(value: string) {
+        if (value != '' && value != '0') {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    function formatSeconds(seconds: number, showSeconds?: boolean, showHours?: boolean) {
         let hour = Math.floor(seconds / 3600);
         let minute = Math.floor((seconds % 3600) / 60);
         let second = seconds % 60;
@@ -76,11 +74,16 @@ export function ConfigurationsForm() {
             }
         }
 
-        if (hour >= 1) {
-            return `${zeroPadStart(hour.toString())}:${zeroPadStart(minute.toString())}`
-        } else {
-            return `${minute.toString()}`
+        if (showHours) {
+            if (hour >= 1) {
+                return `${zeroPadStart(hour.toString())}:${zeroPadStart(minute.toString())}`
+            } else {
+                return `${minute}`
+            }
         }
+
+        minute = seconds / 60;
+        return `${minute}`
     }
 
     const jobForm = (
@@ -94,11 +97,13 @@ export function ConfigurationsForm() {
                         variant="outlined"
                         size="small"
                         value={formatSeconds(jobTime)}
+                        disabled={automaticJobTime}
                         onChange={(event) => {
                             event.target.value = formatValue(new RegExp(/\D/), event.target.value);
                             handleSetValidFormAccordingState(validJobForm, setValidJobForm, checkInputFormat(event.target.value), 0);
-                            handleSetInputValuesAccordingState(jobFormInputValues, setJobFormInputValues, Number(event.target.value), 0);
+                            setJobTime(Number(event.target.value) * 60);
                         }}
+
                         InputProps={{
                             inputMode: 'numeric',
                             endAdornment: <label htmlFor="job-time">min</label>,
@@ -109,21 +114,16 @@ export function ConfigurationsForm() {
 
             <InputContainer>
                 <div>
-                    <StyledInput
-                        type="text"
-                        id="qtd-pomodoro"
-                        label="Qtd. Pomodoros"
-                        variant="outlined"
-                        size="small"
-                        value={pomodoroAmount}
+                    <CheckboxWithLabel
+                        id="automatic-job-time"
+                        labelText="Tempo por pomodoro"
+                        checked={automaticJobTime}
                         onChange={(event) => {
-                            event.target.value = formatValue(new RegExp(/\D/), event.target.value);
-                            handleSetValidFormAccordingState(validJobForm, setValidJobForm, checkInputFormat(event.target.value), 1);
-                            handleSetInputValuesAccordingState(jobFormInputValues, setJobFormInputValues, Number(event.target.value), 1);
-                        }}
-                        InputProps={{
-                            inputMode: 'numeric',
-                            endAdornment: <label htmlFor="qtd-pomodoro">x</label>,
+                            setAutomaticJobTime(event.target.checked);
+                            if (!event.target.checked) {
+                                setAutomaticRestTime(event.target.checked);
+                            }
+                            setJobTime((Number(pomodoroAmount)) * (25 * 60))
                         }}
                     />
                 </div>
@@ -138,11 +138,43 @@ export function ConfigurationsForm() {
                 </PopoverButton>
             </InputContainer>
 
+            {
+                automaticJobTime && (
+                    <InputContainer>
+                        <div>
+                            <StyledInput
+                                type="text"
+                                id="qtd-pomodoro"
+                                label="Qtd. Pomodoros"
+                                variant="outlined"
+                                size="small"
+                                value={pomodoroAmount}
+                                onChange={(event) => {
+                                    event.target.value = formatValue(new RegExp(/\D/), event.target.value);
+                                    handleSetValidFormAccordingState(validJobForm, setValidJobForm, checkInputFormat(event.target.value), 1);
+                                    setJobTime((Number(event.target.value)) * (25 * 60));
+                                    setPomodoroAmount(Number(event.target.value));
+                                    automaticRestTime && setRestTime(((Number(event.target.value)) * (25 * 60)) / 5);
+                                }}
+                                InputProps={{
+                                    inputMode: 'numeric',
+                                    endAdornment: <label htmlFor="qtd-pomodoro">x</label>,
+                                }}
+                            />
+                        </div>
+                    </InputContainer>
+                )
+            }
+
             <InputContainer>
                 <CheckboxWithLabel
                     id="block-rest"
                     labelText="Bloquear descanso"
                     checked={blockRest}
+
+                    onChange={(event) => {
+                        setBlockRest(event.target.checked);
+                    }}
                 />
                 <PopoverButton
                     icon={<MdHelp />}
@@ -177,10 +209,11 @@ export function ConfigurationsForm() {
                         variant="outlined"
                         size="small"
                         value={formatSeconds(restTime)}
+                        disabled={automaticRestTime}
                         onChange={(event) => {
                             event.target.value = formatValue(new RegExp(/\D/), event.target.value);
                             handleSetValidFormAccordingState(validRestForm, setValidRestForm, checkInputFormat(event.target.value), 0);
-                            handleSetInputValuesAccordingState(restFormInputValues, setRestFormInputValues, Number(event.target.value), 0);
+                            setRestTime(Number(event.target.value) * 60);
                         }}
                         InputProps={{
                             inputMode: 'numeric',
@@ -190,23 +223,31 @@ export function ConfigurationsForm() {
                 </div>
             </InputContainer>
 
-            <InputContainer>
-                <CheckboxWithLabel
-                    id="automatic-rest-time"
-                    labelText="Tempo automático"
-                    checked={automaticTime}
-                />
-                <PopoverButton
-                    icon={<MdHelp />}
-                    paleteColor='light'
-                >
-                    <PopoverText>
-                        Define um tempo automático de acordo com a
-                        quantidade de pomodoros citada nas configurações do modo de trabalho.
-                        <p>[1 pomodoro = 5 min. descanso]</p>
-                    </PopoverText>
-                </PopoverButton>
-            </InputContainer>
+            {
+                automaticJobTime && (
+                    <InputContainer>
+                        <CheckboxWithLabel
+                            id="automatic-rest-time"
+                            labelText="Tempo automático"
+                            checked={automaticRestTime}
+                            onChange={(event) => {
+                                setAutomaticRestTime(event.target.checked);
+                                setRestTime((Number(jobTime) / 5));
+                            }}
+                        />
+                        <PopoverButton
+                            icon={<MdHelp />}
+                            paleteColor='light'
+                        >
+                            <PopoverText>
+                                Define um tempo automático de acordo com a
+                                quantidade de pomodoros citada nas configurações do modo de trabalho.
+                                <p>[1 pomodoro = 5 min. descanso]</p>
+                            </PopoverText>
+                        </PopoverButton>
+                    </InputContainer>
+                )
+            }
 
             <FormFooter>
                 <StyledButton
@@ -219,18 +260,6 @@ export function ConfigurationsForm() {
             </FormFooter>
         </FormContainer >
     )
-
-    function formatValue(pattern: RegExp, value: string) {
-        return value.replace(pattern, '');
-    }
-
-    function checkInputFormat(value: string) {
-        if (value != '') {
-            return true;
-        }
-
-        return false;
-    }
 
     return (
         <Container>
