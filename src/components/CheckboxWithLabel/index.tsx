@@ -1,12 +1,13 @@
+import { Checkbox } from "@mui/material";
+import React from "react";
 import { StyledCheckbox } from "./styles";
 
-interface props {
+interface CheckboxProps extends React.ComponentProps<typeof Checkbox> {
     id: string,
     labelText?: string,
-    checked?: boolean
 }
 
-export function CheckboxWithLabel({ id, labelText, checked }: props) {
+export function CheckboxWithLabel({ id, labelText, ...props }: CheckboxProps) {
     return (
         <div>
             {
@@ -14,7 +15,7 @@ export function CheckboxWithLabel({ id, labelText, checked }: props) {
                     <label htmlFor={id}>{labelText}</label>
                 )
             }
-            <StyledCheckbox id={id} checked={checked} />
+            <StyledCheckbox id={id} {...props} />
         </div>
     )
 }
