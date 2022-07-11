@@ -263,10 +263,13 @@ export function ConfigurationsForm() {
 
     return (
         <Container>
-            <TimerModeTabs paleteColor="primary" content={[
-                (jobForm),
-                (restForm)
-            ]} />
+            <TimerModeTabs
+                paleteColor="primary"
+                content={[
+                    (jobForm),
+                    (restForm)
+                ]}
+            />
         </Container>
     )
 }

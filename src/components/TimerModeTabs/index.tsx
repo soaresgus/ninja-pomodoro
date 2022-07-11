@@ -41,9 +41,10 @@ function a11yProps(index: number) {
 interface props {
     content: Array<React.ReactNode>;
     paleteColor?: 'primary' | 'secondary' | 'hover' | 'light' | 'text';
+    disabled?: boolean[]
 }
 
-export function TimerModeTabs({ content, paleteColor }: props) {
+export function TimerModeTabs({ content, paleteColor, disabled }: props) {
     const [restMode, setRestMode] = useState(false);
 
     const handleRestModeChange = (event: React.SyntheticEvent, value: boolean) => {
@@ -60,8 +61,8 @@ export function TimerModeTabs({ content, paleteColor }: props) {
                 aria-label="Trocar modo do temporizador"
                 color={paleteColor}
             >
-                <StyledTab color={paleteColor} label="TRABALHO" {...a11yProps(0)} />
-                <StyledTab color={paleteColor} label="DESCANSO" {...a11yProps(1)} />
+                <StyledTab color={paleteColor} label="TRABALHO" {...a11yProps(0)} {...(disabled && { disabled: disabled[0] })} />
+                <StyledTab color={paleteColor} label="DESCANSO" {...a11yProps(1)} {...(disabled && { disabled: disabled[1] })} />
             </StyledTabs>
 
             <TabPanel value={restModeBooleanToNumber} index={0}>
