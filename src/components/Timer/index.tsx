@@ -28,25 +28,25 @@ export function Timer() {
 
     let timeout: number | undefined;
     useEffect(() => {
-        if (playing) {
-            if (globalTime >= 0) {
-                timeout = setTimeout(() => setGlobalTime((state: number) => state - 1), 1000);
-                if (restMode) {
-                    document.title = `Descanso: ${formatSeconds(globalTime, true, true)}`
-                    setActualRestTime(globalTime)
-                } else {
-                    document.title = `Trabalho: ${formatSeconds(globalTime, true, true)}`
-                    setActualJobTime(globalTime)
-                }
-            } else {
-                setPlaying(false);
-                return;
-            }
-        } else {
+        if (!playing || globalTime <= 0) {
+            setPlaying(false);
             clearTimeout(timeout);
             document.title = defaultTitle;
+            return;
         }
-    }, [globalTime, playing]);
+
+        if (restMode) {
+            document.title = `Descanso: ${formatSeconds(globalTime, true, true)}`
+            setActualRestTime(globalTime)
+        } else {
+            document.title = `Trabalho: ${formatSeconds(globalTime, true, true)}`
+            setActualJobTime(globalTime)
+        }
+
+        timeout = setTimeout(() => {
+            setGlobalTime((state: number) => state - 1)
+        }, 1000);
+    }, [playing, globalTime]);
 
     function pauseTimer() {
         setPlaying(false);
@@ -89,11 +89,13 @@ export function Timer() {
                 <ControlersContainer>
                     <PlayPauseButton
                         onClick={() => {
-                            setPlaying((state: boolean) => !state);
                             if (playing) {
-                                clearTimeout(timeout);
+                                pauseTimer();
+                            } else {
+                                setPlaying(true);
                             }
                         }}
+
                     >
                         {
                             playing ? (<MdPause />) : (<MdPlayArrow />)
@@ -118,6 +120,6 @@ export function Timer() {
                     </PopoverButton>
                 </ConfigurationsContainer>
             </Container>
-        </IconContext.Provider>
+        </IconContext.Provider >
     )
 }
