@@ -27,10 +27,11 @@ export function Timer() {
     let timeout: number | undefined;
     useEffect(() => {
         if (playing) {
-            if (globalTime > 0) {
+            if (globalTime >= 0) {
                 timeout = setTimeout(() => setGlobalTime((state: number) => state - 1), 1000);
                 restMode ? setActualRestTime(globalTime) : setActualJobTime(globalTime)
             } else {
+                setPlaying(false);
                 return;
             }
         } else {
