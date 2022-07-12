@@ -1,4 +1,5 @@
-import { Tabs, Tab } from '@mui/material';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import styled from 'styled-components';
 
 export const Container = styled.div`

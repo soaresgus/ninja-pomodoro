@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Checkbox } from '@mui/material'
+import Checkbox from '@mui/material/Checkbox'
 
 export const Container = styled.div`
     &[aria-disabled="true"] {

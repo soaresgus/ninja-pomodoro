@@ -1,4 +1,4 @@
-import { Checkbox } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
 import React from "react";
 import { StyledCheckbox, Container } from "./styles";
 
