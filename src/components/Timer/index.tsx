@@ -18,21 +18,25 @@ export function Timer() {
     const [restTime, setRestTime] = usePersistedState('restTime', 500);
     const [blockRest, setBlockRest] = usePersistedState('blockRest', true)
 
-    const [actualTime, setActualTime] = useState(jobTime);
+    const [globalTime, setGlobalTime] = useState(jobTime);
+    const [actualJobTime, setActualJobTime] = useState(jobTime);
+    const [actualRestTime, setActualRestTime] = useState(restTime);
 
+    const [restMode, setRestMode] = useState(false);
 
     let timeout: number | undefined;
     useEffect(() => {
         if (playing) {
-            if (actualTime > 0) {
-                timeout = setTimeout(() => setActualTime((state: number) => state - 1), 1000);
+            if (globalTime > 0) {
+                timeout = setTimeout(() => setGlobalTime((state: number) => state - 1), 1000);
+                restMode ? setActualRestTime(globalTime) : setActualJobTime(globalTime)
             } else {
                 return;
             }
         } else {
             clearTimeout(timeout);
         }
-    }, [actualTime, playing]);
+    }, [globalTime, playing]);
 
     function pauseTimer() {
         setPlaying(false);
@@ -41,7 +45,9 @@ export function Timer() {
 
     function resetTimer(actualTimeValue: number) {
         pauseTimer();
-        setActualTime(actualTimeValue);
+        setGlobalTime(actualTimeValue);
+        setActualJobTime(jobTime);
+        setActualRestTime(restTime);
     }
 
     return (
@@ -50,13 +56,25 @@ export function Timer() {
                 <TimerModeTabs
                     content={[
                         (
-                            <TimeText>{formatSeconds(actualTime, true, true)}</TimeText>
+                            <TimeText>{formatSeconds(actualJobTime, true, true)}</TimeText>
                         ),
                         (
-                            <TimeText>05:00</TimeText>
+                            <TimeText>{formatSeconds(actualRestTime, true, true)}</TimeText>
                         )
                     ]}
-                    disabled={[false, (actualTime > 0 && blockRest)]}
+                    disabled={[false, (actualJobTime > 0 && blockRest)]}
+                    onClickActions={[
+                        () => {
+                            pauseTimer();
+                            setGlobalTime(actualJobTime);
+                            setRestMode(false);
+                        },
+                        () => {
+                            pauseTimer();
+                            setGlobalTime(actualRestTime);
+                            setRestMode(true);
+                        }
+                    ]}
                 />
                 <ControlersContainer>
                     <PlayPauseButton
@@ -74,7 +92,7 @@ export function Timer() {
 
                     <ResetButton
                         onClick={() => {
-                            resetTimer(jobTime);
+                            restMode ? resetTimer(restTime) : resetTimer(jobTime)
                         }}
                     >
                         <MdRefresh />
