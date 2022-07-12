@@ -27,13 +27,22 @@ export function Timer() {
     const defaultTitle = 'Ninja Pomodoro'
 
     let timeout: number | undefined;
+
+    function pauseTimer() {
+        setPlaying(false);
+        clearTimeout(timeout);
+    }
+
     useEffect(() => {
-        if (!playing || globalTime <= 0) {
-            setPlaying(false);
-            clearTimeout(timeout);
+        if (!playing || globalTime < 0) {
+            pauseTimer();
             document.title = defaultTitle;
             return;
         }
+
+        timeout = setTimeout(() => {
+            setGlobalTime((state: number) => state - 1)
+        }, 1000);
 
         if (restMode) {
             document.title = `Descanso: ${formatSeconds(globalTime, true, true)}`
@@ -42,16 +51,7 @@ export function Timer() {
             document.title = `Trabalho: ${formatSeconds(globalTime, true, true)}`
             setActualJobTime(globalTime)
         }
-
-        timeout = setTimeout(() => {
-            setGlobalTime((state: number) => state - 1)
-        }, 1000);
     }, [playing, globalTime]);
-
-    function pauseTimer() {
-        setPlaying(false);
-        clearTimeout(timeout);
-    }
 
     function resetTimer(actualTimeValue: number) {
         pauseTimer();
@@ -89,13 +89,9 @@ export function Timer() {
                 <ControlersContainer>
                     <PlayPauseButton
                         onClick={() => {
-                            if (playing) {
-                                pauseTimer();
-                            } else {
-                                setPlaying(true);
-                            }
+                            /* pauseTimer(); */
+                            setPlaying(!playing);
                         }}
-
                     >
                         {
                             playing ? (<MdPause />) : (<MdPlayArrow />)

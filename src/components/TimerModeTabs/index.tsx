@@ -16,7 +16,7 @@ function TabPanel(props: TabPanelProps) {
         <div
             role="tabpanel"
             hidden={value !== index}
-            id={`modo-temporizador-${timerModeString(index)}`}
+            id={`modo-temporizador-${timerModeString(index)}-conteudo`}
             aria-labelledby={`modo temporizador ${timerModeString(index)}`}
             {...other}
         >
