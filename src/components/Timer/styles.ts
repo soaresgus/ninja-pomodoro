@@ -39,7 +39,7 @@ export const Container = styled.div`
 `;
 
 export const TimeText = styled.strong`
-    font-size: 9rem;
+    font-size: min(15vw, 9rem);
     letter-spacing: 1rem;
     margin-left: 1rem;
     line-height: 1;
