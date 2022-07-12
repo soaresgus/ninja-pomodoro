@@ -223,31 +223,28 @@ export function ConfigurationsForm() {
                 </div>
             </InputContainer>
 
-            {
-                automaticJobTime && (
-                    <InputContainer>
-                        <CheckboxWithLabel
-                            id="automatic-rest-time"
-                            labelText="Tempo automático"
-                            checked={automaticRestTime}
-                            onChange={(event) => {
-                                setAutomaticRestTime(event.target.checked);
-                                setRestTime((Number(jobTime) / 5));
-                            }}
-                        />
-                        <PopoverButton
-                            icon={<MdHelp />}
-                            paleteColor='light'
-                        >
-                            <PopoverText>
-                                Define um tempo automático de acordo com a
-                                quantidade de pomodoros citada nas configurações do modo de trabalho.
-                                <p>[1 pomodoro = 5 min. descanso]</p>
-                            </PopoverText>
-                        </PopoverButton>
-                    </InputContainer>
-                )
-            }
+            <InputContainer>
+                <CheckboxWithLabel
+                    id="automatic-rest-time"
+                    labelText="Tempo automático"
+                    checked={automaticRestTime}
+                    onChange={(event) => {
+                        setAutomaticRestTime(event.target.checked);
+                        setRestTime((Number(jobTime) / 5));
+                    }}
+                    disabled={!automaticJobTime}
+                />
+                <PopoverButton
+                    icon={<MdHelp />}
+                    paleteColor='light'
+                >
+                    <PopoverText>
+                        Define um tempo automático de acordo com a
+                        quantidade de pomodoros citada nas configurações do modo de trabalho.
+                        <p>[1 pomodoro = 5 min. descanso]</p>
+                    </PopoverText>
+                </PopoverButton>
+            </InputContainer>
 
             <FormFooter>
                 <StyledButton
