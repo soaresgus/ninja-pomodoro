@@ -5,7 +5,7 @@ import * as Popover from '@radix-ui/react-popover';
 
 import { MdClose } from 'react-icons/md'
 
-interface props {
+interface props extends React.ComponentProps<typeof Popover.Root> {
     title?: string,
     icon: any,
     children?: React.ReactNode,
@@ -13,12 +13,12 @@ interface props {
     avoidCollisions?: boolean
 }
 
-export function PopoverButton({ title, icon, children, paleteColor, avoidCollisions = true }: props) {
+export function PopoverButton({ title, icon, children, paleteColor, avoidCollisions = true, ...props }: props) {
     const HoverButton = HoverCard.Root;
 
     const PopoverRoot = Popover.Root;
     return (
-        <PopoverRoot modal>
+        <PopoverRoot modal {...props}>
             <PopoverTrigger aria-label={title}>
                 <HoverButton openDelay={0}>
                     <HoverButtonTrigger>
