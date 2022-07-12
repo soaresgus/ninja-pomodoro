@@ -1,6 +1,4 @@
-import { TabProps, TabsProps } from "@mui/material";
 import React, { useState } from "react";
-import { ThemedStyledInterface } from "styled-components";
 import { Container, StyledTab, StyledTabs } from "./styles";
 
 interface TabPanelProps {
@@ -42,9 +40,10 @@ interface props {
     content: Array<React.ReactNode>;
     paleteColor?: 'primary' | 'secondary' | 'hover' | 'light' | 'text';
     disabled?: boolean[]
+    onClickActions?: React.MouseEventHandler<HTMLElement>[];
 }
 
-export function TimerModeTabs({ content, paleteColor, disabled }: props) {
+export function TimerModeTabs({ content, paleteColor, disabled, onClickActions }: props) {
     const [restMode, setRestMode] = useState(false);
 
     const handleRestModeChange = (event: React.SyntheticEvent, value: boolean) => {
@@ -61,8 +60,8 @@ export function TimerModeTabs({ content, paleteColor, disabled }: props) {
                 aria-label="Trocar modo do temporizador"
                 color={paleteColor}
             >
-                <StyledTab color={paleteColor} label="TRABALHO" {...a11yProps(0)} {...(disabled && { disabled: disabled[0] })} />
-                <StyledTab color={paleteColor} label="DESCANSO" {...a11yProps(1)} {...(disabled && { disabled: disabled[1] })} />
+                <StyledTab color={paleteColor} label="TRABALHO" {...a11yProps(0)} {...(disabled && { disabled: disabled[0] })} {...(onClickActions && { onClick: onClickActions[0] })} />
+                <StyledTab color={paleteColor} label="DESCANSO" {...a11yProps(1)} {...(disabled && { disabled: disabled[1] })} {...(onClickActions && { onClick: onClickActions[1] })} />
             </StyledTabs>
 
             <TabPanel value={restModeBooleanToNumber} index={0}>
