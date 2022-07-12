@@ -24,18 +24,27 @@ export function Timer() {
 
     const [restMode, setRestMode] = useState(false);
 
+    const defaultTitle = 'Ninja Pomodoro'
+
     let timeout: number | undefined;
     useEffect(() => {
         if (playing) {
             if (globalTime >= 0) {
                 timeout = setTimeout(() => setGlobalTime((state: number) => state - 1), 1000);
-                restMode ? setActualRestTime(globalTime) : setActualJobTime(globalTime)
+                if (restMode) {
+                    document.title = `Descanso: ${formatSeconds(globalTime, true, true)}`
+                    setActualRestTime(globalTime)
+                } else {
+                    document.title = `Trabalho: ${formatSeconds(globalTime, true, true)}`
+                    setActualJobTime(globalTime)
+                }
             } else {
                 setPlaying(false);
                 return;
             }
         } else {
             clearTimeout(timeout);
+            document.title = defaultTitle;
         }
     }, [globalTime, playing]);
 
