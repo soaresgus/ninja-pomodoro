@@ -1,6 +1,16 @@
 import styled from "styled-components";
 import { Checkbox } from '@mui/material'
 
+export const Container = styled.div`
+    &[aria-disabled="true"] {
+        color: ${props => props.theme.colors.primary};
+
+        &:hover, label:hover {
+            cursor: not-allowed;
+        }
+    }
+`;
+
 export const StyledCheckbox = styled(Checkbox)`
     && {
         padding: .5rem;
