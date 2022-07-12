@@ -4,8 +4,35 @@ import { Container, InputContainer, StyledInput, FormContainer, PopoverText, For
 import { MdHelp } from 'react-icons/md'
 import { PopoverButton } from "../PopoverButton";
 import { CheckboxWithLabel } from "../CheckboxWithLabel";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import usePersistedState from "../../utils/usePersistedState";
+
+export const formatSeconds = (seconds: number, showSeconds?: boolean, showHours?: boolean) => {
+    let hour = Math.floor(seconds / 3600);
+    let minute = Math.floor((seconds % 3600) / 60);
+    let second = seconds % 60;
+
+    const zeroPadStart = (string: string) => string.padStart(2, '0');
+
+    if (showSeconds) {
+        if (hour >= 1) {
+            return `${zeroPadStart(hour.toString())}:${zeroPadStart(minute.toString())}:${zeroPadStart(second.toString())}`
+        } else {
+            return `${zeroPadStart(minute.toString())}:${zeroPadStart(second.toString())}`
+        }
+    }
+
+    if (showHours) {
+        if (hour >= 1) {
+            return `${zeroPadStart(hour.toString())}:${zeroPadStart(minute.toString())}`
+        } else {
+            return `${minute}`
+        }
+    }
+
+    minute = seconds / 60;
+    return `${minute}`
+}
 
 export function ConfigurationsForm() {
     const [validJobForm, setValidJobForm] = useState([true, true]);
@@ -26,8 +53,6 @@ export function ConfigurationsForm() {
 
     const [restTime, setRestTime] = usePersistedState('restTime', defaultRestTime);
     const [automaticRestTime, setAutomaticRestTime] = usePersistedState('automaticRestTime', defaultAutomaticRestTime);
-
-    const [actualTime, setActualTime] = usePersistedState('actualTime', jobTime);
 
     function handleSetValidFormAccordingState(formState: boolean[], formStateDispatch: React.Dispatch<React.SetStateAction<boolean[]>>, value: boolean, index: 0 | 1) {
         let validFormValues: boolean[] = [];
@@ -56,34 +81,6 @@ export function ConfigurationsForm() {
         }
 
         return false;
-    }
-
-
-    function formatSeconds(seconds: number, showSeconds?: boolean, showHours?: boolean) {
-        let hour = Math.floor(seconds / 3600);
-        let minute = Math.floor((seconds % 3600) / 60);
-        let second = seconds % 60;
-
-        const zeroPadStart = (string: string) => string.padStart(2, '0');
-
-        if (showSeconds) {
-            if (hour >= 1) {
-                return `${zeroPadStart(hour.toString())}:${zeroPadStart(minute.toString())}:${zeroPadStart(second.toString())}`
-            } else {
-                return `${zeroPadStart(minute.toString())}:${zeroPadStart(second.toString())}`
-            }
-        }
-
-        if (showHours) {
-            if (hour >= 1) {
-                return `${zeroPadStart(hour.toString())}:${zeroPadStart(minute.toString())}`
-            } else {
-                return `${minute}`
-            }
-        }
-
-        minute = seconds / 60;
-        return `${minute}`
     }
 
     const jobForm = (
@@ -191,6 +188,9 @@ export function ConfigurationsForm() {
                     variant="outlined"
                     size="large"
                     disabled={!formIsValid(validJobForm)}
+                    onClick={() => {
+                        window.location.reload();
+                    }}
                 >
                     Aplicar
                 </StyledButton>
@@ -254,6 +254,9 @@ export function ConfigurationsForm() {
                     variant="outlined"
                     size="large"
                     disabled={!formIsValid(validRestForm)}
+                    onClick={() => {
+                        window.location.reload();
+                    }}
                 >
                     Aplicar
                 </StyledButton>
