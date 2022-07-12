@@ -5,7 +5,7 @@ export default {
         primary: '#9c85b3',
         secondary: '#b59ec6',
         hover: '#ceb4e1',
-        light: '#e6afec',
+        light: '#dcbcf4',
         text: '#f3fefe',
     }
 }
