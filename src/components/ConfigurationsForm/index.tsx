@@ -38,7 +38,7 @@ export function ConfigurationsForm() {
     const [validJobForm, setValidJobForm] = useState([true, true]);
     const [validRestForm, setValidRestForm] = useState([true]);
 
-    const defaultJobTime = 25 * 60;
+    const defaultJobTime = (25 * 60);
     const defaultPomodoroAmount = 1;
     const defaultAutomaticJobTime = false;
     const defaultBlockRest = true;

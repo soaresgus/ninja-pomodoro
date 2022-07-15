@@ -15,7 +15,7 @@ export function Timer() {
     const [playing, setPlaying] = useState(false);
 
     const [jobTime, setJobTime] = usePersistedState('jobTime', 1500);
-    const [restTime, setRestTime] = usePersistedState('restTime', 500);
+    const [restTime, setRestTime] = usePersistedState('restTime', 300);
     const [blockRest, setBlockRest] = usePersistedState('blockRest', true)
 
     const [globalTime, setGlobalTime] = useState(jobTime);
