@@ -14,12 +14,6 @@ export function Timer() {
     const timer = useTimer();
     const [blockRest, setBlockRest] = usePersistedState('blockRest', true)
 
-    const TimerModeTabsOnClickActions = () => {
-        timer.pauseTimer;
-        timer.setGlobalTime(timer.actualJobTime);
-        timer.setRestMode(false);
-    }
-
     return (
         <IconContext.Provider value={{ size: '28' }}>
             <Container>
@@ -33,7 +27,7 @@ export function Timer() {
                         )
                     ]}
                     disabled={[false, (timer.actualJobTime > 0 && blockRest)]}
-                    onClickActions={[TimerModeTabsOnClickActions, TimerModeTabsOnClickActions]}
+                    onClickActions={[() => timer.resetTimer(timer.persistedJobTime), () => timer.resetTimer(timer.persistedRestTime)]}
                 />
                 <ControlersContainer>
                     <PlayPauseButton
