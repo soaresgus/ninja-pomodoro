@@ -6,59 +6,13 @@ import { IconContext } from "react-icons";
 import { PopoverButton } from "../PopoverButton";
 import { ConfigurationsForm } from "../ConfigurationsForm";
 import { TimerModeTabs } from "../TimerModeTabs";
-import React, { useEffect, useState } from "react";
-import usePersistedState from "../../utils/usePersistedState";
 
-import { formatSeconds } from '../ConfigurationsForm';
+import usePersistedState from "../../utils/usePersistedState";
+import { useTimer } from "../../utils/useTimer";
 
 export function Timer() {
-    const [playing, setPlaying] = useState(false);
-
-    const [jobTime, setJobTime] = usePersistedState('jobTime', 1500);
-    const [restTime, setRestTime] = usePersistedState('restTime', 300);
+    const timer = useTimer();
     const [blockRest, setBlockRest] = usePersistedState('blockRest', true)
-
-    const [globalTime, setGlobalTime] = useState(jobTime);
-    const [actualJobTime, setActualJobTime] = useState(jobTime);
-    const [actualRestTime, setActualRestTime] = useState(restTime);
-
-    const [restMode, setRestMode] = useState(false);
-
-    const defaultTitle = 'Ninja Pomodoro'
-
-    let timeout: number | undefined;
-
-    function pauseTimer() {
-        setPlaying(false);
-        clearTimeout(timeout);
-    }
-
-    useEffect(() => {
-        if (!playing || globalTime < 0) {
-            pauseTimer();
-            document.title = defaultTitle;
-            return;
-        }
-
-        timeout = setTimeout(() => {
-            setGlobalTime((state: number) => state - 1)
-        }, 1000);
-
-        if (restMode) {
-            document.title = `Descanso: ${formatSeconds(globalTime, true, true)}`
-            setActualRestTime(globalTime)
-        } else {
-            document.title = `Trabalho: ${formatSeconds(globalTime, true, true)}`
-            setActualJobTime(globalTime)
-        }
-    }, [playing, globalTime]);
-
-    function resetTimer(actualTimeValue: number) {
-        pauseTimer();
-        setGlobalTime(actualTimeValue);
-        setActualJobTime(jobTime);
-        setActualRestTime(restTime);
-    }
 
     return (
         <IconContext.Provider value={{ size: '28' }}>
@@ -66,41 +20,40 @@ export function Timer() {
                 <TimerModeTabs
                     content={[
                         (
-                            <TimeText>{formatSeconds(actualJobTime, true, true)}</TimeText>
+                            <TimeText>{timer.formatSeconds(timer.actualJobTime, true, true)}</TimeText>
                         ),
                         (
-                            <TimeText>{formatSeconds(actualRestTime, true, true)}</TimeText>
+                            <TimeText>{timer.formatSeconds(timer.actualRestTime, true, true)}</TimeText>
                         )
                     ]}
-                    disabled={[false, (actualJobTime > 0 && blockRest)]}
+                    disabled={[false, (timer.actualJobTime > 0 && blockRest)]}
                     onClickActions={[
                         () => {
-                            pauseTimer();
-                            setGlobalTime(actualJobTime);
-                            setRestMode(false);
+                            timer.pauseTimer;
+                            timer.setGlobalTime(timer.actualJobTime);
+                            timer.setRestMode(false);
                         },
                         () => {
-                            pauseTimer();
-                            setGlobalTime(actualRestTime);
-                            setRestMode(true);
+                            timer.pauseTimer;
+                            timer.setGlobalTime(timer.actualRestTime);
+                            timer.setRestMode(true);
                         }
                     ]}
                 />
                 <ControlersContainer>
                     <PlayPauseButton
                         onClick={() => {
-                            /* pauseTimer(); */
-                            setPlaying(!playing);
+                            timer.setPlaying(!timer.playing);
                         }}
                     >
                         {
-                            playing ? (<MdPause />) : (<MdPlayArrow />)
+                            timer.playing ? (<MdPause />) : (<MdPlayArrow />)
                         }
                     </PlayPauseButton>
 
                     <ResetButton
                         onClick={() => {
-                            restMode ? resetTimer(restTime) : resetTimer(jobTime)
+                            timer.restMode ? timer.resetTimer(timer.persistedRestTime) : timer.resetTimer(timer.persistedJobTime)
                         }}
                     >
                         <MdRefresh />
