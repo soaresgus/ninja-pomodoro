@@ -56,17 +56,16 @@ export const useTimer = () => {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            setGlobalTime((state) => state - 1)
+            playing && globalTime > 0 && setGlobalTime(state => state - 1);
         }, 1000);
-
-        if (!playing || globalTime < 0) {
-            setPlaying(false);
-            clearTimeout(timeout);
-            return;
-        }
 
         restMode ? setActualRestTime(globalTime) : setActualJobTime(globalTime)
 
+        if (globalTime <= 0) {
+            setPlaying(false);
+        }
+
+        return () => { clearTimeout(timeout) };
     }, [playing, globalTime]);
 
     return {
