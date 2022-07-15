@@ -6,53 +6,18 @@ import { PopoverButton } from "../PopoverButton";
 import { CheckboxWithLabel } from "../CheckboxWithLabel";
 import React, { useState } from "react";
 import usePersistedState from "../../utils/usePersistedState";
-
-export const formatSeconds = (seconds: number, showSeconds?: boolean, showHours?: boolean) => {
-    let hour = Math.floor(seconds / 3600);
-    let minute = Math.floor((seconds % 3600) / 60);
-    let second = seconds % 60;
-
-    const zeroPadStart = (string: string) => string.padStart(2, '0');
-
-    if (showSeconds) {
-        if (hour >= 1) {
-            return `${zeroPadStart(hour.toString())}:${zeroPadStart(minute.toString())}:${zeroPadStart(second.toString())}`
-        } else {
-            return `${zeroPadStart(minute.toString())}:${zeroPadStart(second.toString())}`
-        }
-    }
-
-    if (showHours) {
-        if (hour >= 1) {
-            return `${zeroPadStart(hour.toString())}:${zeroPadStart(minute.toString())}`
-        } else {
-            return `${minute}`
-        }
-    }
-
-    minute = seconds / 60;
-    return `${minute}`
-}
+import { useTimer } from "../../utils/useTimer";
 
 export function ConfigurationsForm() {
     const [validJobForm, setValidJobForm] = useState([true, true]);
     const [validRestForm, setValidRestForm] = useState([true]);
 
-    const defaultJobTime = (25 * 60);
-    const defaultPomodoroAmount = 1;
-    const defaultAutomaticJobTime = false;
-    const defaultBlockRest = true;
+    const [blockRest, setBlockRest] = usePersistedState('blockRest', true);
+    const [automaticJobTime, setAutomaticJobTime] = usePersistedState('automaticJobTime', false);
+    const [automaticRestTime, setAutomaticRestTime] = usePersistedState('automaticRestTime', false);
+    const [pomodoroAmount, setPomodoroAmount] = usePersistedState('pomodoroAmount', 1);
 
-    const defaultRestTime = (defaultJobTime / 5);
-    const defaultAutomaticRestTime = defaultAutomaticJobTime;
-
-    const [jobTime, setJobTime] = usePersistedState('jobTime', defaultJobTime);
-    const [pomodoroAmount, setPomodoroAmount] = usePersistedState('pomodoroAmount', defaultPomodoroAmount);
-    const [blockRest, setBlockRest] = usePersistedState('blockRest', defaultBlockRest);
-    const [automaticJobTime, setAutomaticJobTime] = usePersistedState('automaticJobTime', defaultAutomaticJobTime)
-
-    const [restTime, setRestTime] = usePersistedState('restTime', defaultRestTime);
-    const [automaticRestTime, setAutomaticRestTime] = usePersistedState('automaticRestTime', defaultAutomaticRestTime);
+    const timer = useTimer();
 
     function handleSetValidFormAccordingState(formState: boolean[], formStateDispatch: React.Dispatch<React.SetStateAction<boolean[]>>, value: boolean, index: 0 | 1) {
         let validFormValues: boolean[] = [];
@@ -93,12 +58,12 @@ export function ConfigurationsForm() {
                         label="Tempo (minutos)"
                         variant="outlined"
                         size="small"
-                        value={formatSeconds(jobTime)}
+                        value={timer.formatSeconds(timer.persistedJobTime)}
                         disabled={automaticJobTime}
                         onChange={(event) => {
                             event.target.value = formatValue(new RegExp(/\D/), event.target.value);
                             handleSetValidFormAccordingState(validJobForm, setValidJobForm, checkInputFormat(event.target.value), 0);
-                            setJobTime(Number(event.target.value) * 60);
+                            timer.setPersistedJobTime(Number(event.target.value) * 60);
                         }}
 
                         InputProps={{
@@ -120,7 +85,7 @@ export function ConfigurationsForm() {
                             if (!event.target.checked) {
                                 setAutomaticRestTime(event.target.checked);
                             }
-                            setJobTime((Number(pomodoroAmount)) * (25 * 60))
+                            timer.setPersistedJobTime((Number(pomodoroAmount)) * (25 * 60))
                         }}
                     />
                 </div>
@@ -149,9 +114,9 @@ export function ConfigurationsForm() {
                                 onChange={(event) => {
                                     event.target.value = formatValue(new RegExp(/\D/), event.target.value);
                                     handleSetValidFormAccordingState(validJobForm, setValidJobForm, checkInputFormat(event.target.value), 1);
-                                    setJobTime((Number(event.target.value)) * (25 * 60));
+                                    timer.setPersistedJobTime((Number(event.target.value)) * (25 * 60));
                                     setPomodoroAmount(Number(event.target.value));
-                                    automaticRestTime && setRestTime(((Number(event.target.value)) * (25 * 60)) / 5);
+                                    automaticRestTime && timer.setPersistedRestTime(((Number(event.target.value)) * (25 * 60)) / 5);
                                 }}
                                 InputProps={{
                                     inputMode: 'numeric',
@@ -208,12 +173,12 @@ export function ConfigurationsForm() {
                         label="Tempo (minutos)"
                         variant="outlined"
                         size="small"
-                        value={formatSeconds(restTime)}
+                        value={timer.formatSeconds(timer.persistedRestTime)}
                         disabled={automaticRestTime}
                         onChange={(event) => {
                             event.target.value = formatValue(new RegExp(/\D/), event.target.value);
                             handleSetValidFormAccordingState(validRestForm, setValidRestForm, checkInputFormat(event.target.value), 0);
-                            setRestTime(Number(event.target.value) * 60);
+                            timer.setPersistedRestTime(Number(event.target.value) * 60);
                         }}
                         InputProps={{
                             inputMode: 'numeric',
@@ -230,7 +195,7 @@ export function ConfigurationsForm() {
                     checked={automaticRestTime}
                     onChange={(event) => {
                         setAutomaticRestTime(event.target.checked);
-                        setRestTime((Number(jobTime) / 5));
+                        timer.setPersistedRestTime((Number(timer.persistedJobTime) / 5));
                     }}
                     disabled={!automaticJobTime}
                 />
