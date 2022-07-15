@@ -16,10 +16,6 @@ export const useTimer = () => {
 
     const [restMode, setRestMode] = useState(false);
 
-    const pauseTimer = () => {
-        setPlaying(false);
-    }
-
     const formatSeconds = (seconds: number, showSeconds?: boolean, showHours?: boolean) => {
         let hour = Math.floor(seconds / 3600);
         let minute = Math.floor((seconds % 3600) / 60);
@@ -48,20 +44,22 @@ export const useTimer = () => {
     }
 
     const resetTimer = (actualTimeValue: number) => {
-        pauseTimer;
+        setPlaying(false);
         setGlobalTime(actualTimeValue);
         setActualJobTime(persistedJobTime);
         setActualRestTime(persistedRestTime);
     }
 
     useEffect(() => {
+        restMode ? setActualRestTime(globalTime) : setActualJobTime(globalTime)
+
         const timeout = setTimeout(() => {
             playing && globalTime > 0 && setGlobalTime(state => state - 1);
         }, 1000);
 
-        restMode ? setActualRestTime(globalTime) : setActualJobTime(globalTime)
 
-        if (globalTime <= 0) {
+        if (globalTime <= 0 || !playing) {
+            clearTimeout(timeout);
             setPlaying(false);
         }
 
@@ -83,7 +81,6 @@ export const useTimer = () => {
         setGlobalTime,
         restMode,
         setRestMode,
-        pauseTimer,
         formatSeconds,
         resetTimer
     }
