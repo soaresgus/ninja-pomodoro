@@ -3,6 +3,7 @@ import styled, { css, keyframes } from 'styled-components';
 import * as HoverCard from '@radix-ui/react-hover-card';
 import * as Popover from '@radix-ui/react-popover';
 
+import { IPaleteColors } from '../../styles/styled'
 
 const FadeAnimation = keyframes`
     from { opacity: 0; }
@@ -10,14 +11,11 @@ const FadeAnimation = keyframes`
 `
 
 const ArrowStyle = css`
-    fill: ${props => props.theme.colors[props.color || 'hover']};;
     margin-bottom: .5rem;
 `;
 
 const ContentStyle = css`
     display: flex;
-
-    background-color: ${props => props.theme.colors[props.color || 'hover']};
 
     border-radius: .4rem;
     padding: .5rem;
@@ -51,10 +49,12 @@ export const HoverButtonTrigger = styled(HoverCard.Trigger)`
 
 export const HoverButtonArrow = styled(HoverCard.Arrow)`
     ${ArrowStyle};
+    fill: ${props => props.theme.colors[props.color as keyof IPaleteColors || 'hover']};
 `;
 
 export const HoverButtonContent = styled(HoverCard.Content)`
     ${ContentStyle};
+    background-color: ${props => props.theme.colors[props.color as keyof IPaleteColors || 'hover']};
 `;
 
 export const PopoverTrigger = styled(Popover.Trigger)`
@@ -71,6 +71,7 @@ export const PopoverTrigger = styled(Popover.Trigger)`
 
 export const PopoverArrow = styled(Popover.Arrow)`
     ${ArrowStyle};
+    fill: ${props => props.theme.colors[props.color as keyof IPaleteColors || 'hover']};
 `;
 
 export const PopoverContent = styled(Popover.Content)`
@@ -79,6 +80,7 @@ export const PopoverContent = styled(Popover.Content)`
     flex-direction: column;
     
     ${ContentStyle};
+    background-color: ${props => props.theme.colors[props.color as keyof IPaleteColors || 'hover']};
 `;
 
 export const PopoverClose = styled(Popover.Close)`
