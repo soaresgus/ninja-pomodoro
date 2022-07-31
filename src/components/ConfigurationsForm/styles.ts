@@ -73,18 +73,9 @@ export const StyledButton = styled(Button)`
 export const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 2rem;
-    height: 27.6rem;
+    height: 21.6rem;
     width: 26.3rem;
-`;
-
-export const FormFooter = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-    height: 100%;
 `;
 
 export const PopoverText = styled.span`

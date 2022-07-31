@@ -5,7 +5,6 @@ import {
   StyledInput,
   FormContainer,
   PopoverText,
-  FormFooter,
   StyledButton,
 } from './styles';
 
@@ -181,16 +180,6 @@ export function ConfigurationsForm() {
           </PopoverText>
         </PopoverButton>
       </InputContainer>
-
-      <FormFooter>
-        <StyledButton
-          variant="outlined"
-          size="large"
-          disabled={!formIsValid(validJobForm)}
-        >
-          Aplicar
-        </StyledButton>
-      </FormFooter>
     </FormContainer>
   );
 
@@ -246,16 +235,6 @@ export function ConfigurationsForm() {
           </PopoverText>
         </PopoverButton>
       </InputContainer>
-
-      <FormFooter>
-        <StyledButton
-          variant="outlined"
-          size="large"
-          disabled={!formIsValid(validRestForm)}
-        >
-          Aplicar
-        </StyledButton>
-      </FormFooter>
     </FormContainer>
   );
 
