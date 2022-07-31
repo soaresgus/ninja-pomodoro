@@ -89,9 +89,6 @@ export const PopoverClose = styled(Popover.Close)`
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    width: 2.0rem;
-    height: 2.0rem;
     padding: .25rem;
     border-radius: 200px;
 

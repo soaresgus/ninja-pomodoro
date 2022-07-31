@@ -53,7 +53,7 @@ export function PopoverButton({
         side="top"
       >
         <PopoverClose>
-          <MdClose size={15} />
+          <MdClose size={20} />
         </PopoverClose>
         {children}
         <PopoverArrow color={paleteColor} />
