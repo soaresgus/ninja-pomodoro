@@ -51,7 +51,7 @@ export const useTimer = () => {
     }
 
     useEffect(() => {
-        restMode ? setActualRestTime(globalTime) : setActualJobTime(globalTime)
+        restMode ? setActualJobTime(globalTime) : setActualRestTime(globalTime)
 
         const timeout = setTimeout(() => {
             playing && globalTime > 0 && setGlobalTime(state => state - 1);
@@ -67,12 +67,10 @@ export const useTimer = () => {
     }, [playing, globalTime]);
 
     useEffect(() => {
-        setActualJobTime(persistedJobTime)
         resetTimer(persistedJobTime)
     }, [persistedJobTime])
 
     useEffect(() => {
-        setActualRestTime(persistedRestTime)
         resetTimer(persistedRestTime)
     }, [persistedRestTime])
 
