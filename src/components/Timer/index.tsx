@@ -5,24 +5,22 @@ import {
   PlayPauseButton,
   ResetButton,
   TimeText,
-} from "./styles";
+} from './styles';
 
-import { MdTune, MdPlayArrow, MdPause, MdRefresh } from "react-icons/md";
-import { IconContext } from "react-icons";
+import { MdTune, MdPlayArrow, MdPause, MdRefresh } from 'react-icons/md';
+import { IconContext } from 'react-icons';
 
-import { PopoverButton } from "../PopoverButton";
-import { ConfigurationsForm } from "../ConfigurationsForm";
-import { TimerModeTabs } from "../TimerModeTabs";
+import { PopoverButton } from '../PopoverButton';
+import { ConfigurationsForm } from '../ConfigurationsForm';
+import { TimerModeTabs } from '../TimerModeTabs';
 
-import usePersistedState from "../../utils/usePersistedState";
-import { useTimer } from "../../utils/useTimer";
+import { useTimer } from '../../hooks/useTimer';
 
 export function Timer() {
   const timer = useTimer();
-  const [blockRest, setBlockRest] = usePersistedState("blockRest", true);
 
   return (
-    <IconContext.Provider value={{ size: "28" }}>
+    <IconContext.Provider value={{ size: '28' }}>
       <Container>
         <TimerModeTabs
           content={[
@@ -33,7 +31,7 @@ export function Timer() {
               {timer.formatSeconds(timer.actualRestTime, true, true)}
             </TimeText>,
           ]}
-          disabled={[false, timer.actualJobTime > 0 && blockRest]}
+          disabled={[false, timer.actualJobTime > 0 && timer.blockRest]}
           onClickActions={[
             () => {
               timer.resetTimer(timer.persistedJobTime);
