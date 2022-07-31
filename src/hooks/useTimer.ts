@@ -68,10 +68,12 @@ export const useTimer = () => {
 
     useEffect(() => {
         setActualJobTime(persistedJobTime)
+        resetTimer(persistedJobTime)
     }, [persistedJobTime])
 
     useEffect(() => {
         setActualRestTime(persistedRestTime)
+        resetTimer(persistedRestTime)
     }, [persistedRestTime])
 
     return {
